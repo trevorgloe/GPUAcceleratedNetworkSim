@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-g++"
+	BuildStamp="20240823-1730-Experimental"
+	Name="trevor-PC"
+	Generator="ctest-3.28.3"
+	CompilerName="/usr/bin/g++"
+	CompilerVersion="13.2.0"
+	OSName="Linux"
+	Hostname="trevor-PC"
+	OSRelease="6.8.0-41-generic"
+	OSVersion="#41-Ubuntu SMP PREEMPT_DYNAMIC Fri Aug  2 20:41:06 UTC 2024"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="AuthenticAMD"
+	VendorID="Advanced Micro Devices"
+	FamilyID="25"
+	ModelID="97"
+	ProcessorCacheSize="1024"
+	NumberOfLogicalCPU="32"
+	NumberOfPhysicalCPU="16"
+	TotalVirtualMemory="8191"
+	TotalPhysicalMemory="31289"
+	LogicalProcessorsPerPhysical="2"
+	ProcessorClockFrequency="4949.32"
+	>
+	<Testing>
+		<StartDateTime>Aug 23 10:49 PDT</StartDateTime>
+		<StartTestTime>1724435361</StartTestTime>
+		<TestList/>
+		<EndDateTime>Aug 23 10:49 PDT</EndDateTime>
+		<EndTestTime>1724435361</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

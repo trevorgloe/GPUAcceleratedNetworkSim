@@ -1,0 +1,1 @@
+/usr/bin/g++ -fPIC -g -shared -Wl,-soname,libgraph_fcn.so -o libgraph_fcn.so CMakeFiles/graph_fcn.dir/graph_fcn.cpp.o 

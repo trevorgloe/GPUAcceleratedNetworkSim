@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/trevor/Documents/GPUAcceleratedNetworkSim/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/network.dir/graph_fcn.cpp.o -c /home/trevor/Documents/GPUAcceleratedNetworkSim/graph_fcn.cpp",
+  "file": "/home/trevor/Documents/GPUAcceleratedNetworkSim/graph_fcn.cpp",
+  "output": "CMakeFiles/network.dir/graph_fcn.cpp.o"
+},
+{
+  "directory": "/home/trevor/Documents/GPUAcceleratedNetworkSim/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/network.dir/network.cpp.o -c /home/trevor/Documents/GPUAcceleratedNetworkSim/network.cpp",
+  "file": "/home/trevor/Documents/GPUAcceleratedNetworkSim/network.cpp",
+  "output": "CMakeFiles/network.dir/network.cpp.o"
+}
+]
