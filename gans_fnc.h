@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 
+extern "C"{
 class GraphNode {
     // a single node for the graph, containing the self-identifying information for the node
     public:
@@ -16,7 +17,17 @@ class GraphNode {
         void add_connection(int target); // adds a single connection from the node to 'target'
         void print_node(void);  // prints out the basic info about the node
 };
+}
 
-GraphNode create_node(int idx, std::vector<int> connects);
+extern "C"{
+    // GraphNode create_node(int idx, int connects[5]);
 
+    GraphNode* create_node(int idx, int connects[5]);
+
+    int get_index (GraphNode* node);
+
+    int get_connects_size(GraphNode* node);
+
+    void get_connects_vector(GraphNode* node, int out[]);
+}
 #endif
