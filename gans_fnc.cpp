@@ -3,10 +3,11 @@
 
 extern "C"{
 // constructor for a node
-GraphNode::GraphNode(int idx) {
+GraphNode::GraphNode(int idx, int fnc_idx) {
     index = idx;    // set the node's index
     val = 0;        // initialize the function value to 0
     t = 0;          // always initialize the time to 0
+    fnc_type = static_cast<node_fnc>(fnc_idx);
 
     // don't initialize the vector of connections here, we do that with another function
 }
@@ -24,30 +25,36 @@ void GraphNode::print_node(void) {
         std::cout << connects[i] << ' ';
     }
 }
+
+void GraphNode::propogate(float delta_t){
+    // this function will call whatever propogate function is set by the enum fnc_type and propogate the value forward
+    if (fnc_type == SUM_NODE_VALS_THRESHOLD) {
+        // sum the values of the different nodes its connected to
+        float sum = 0;
+        for (int i = 0; i < connects.size(); i++){
+            sum = sum + 1.0; // just do this for now, for testing
+        }
+        float threshold = 3.5; // arbitrary threshold for now
+        
+        if (sum > threshold) {
+            val = 1.0;
+        } else {
+            val = 0.0;
+        }
+    }
+
+    t = t + delta_t;
+}
 }
 
 extern "C"{
-    // GraphNode create_node(int idx, int connects[5]) {
-    //     GraphNode node(idx);
 
-    //     node.print_node();
-    //     // create the vector of connections
-    //     for (int i=0; i < 5; i++) {
-    //         // node.connects.push_back(connects[i]);
-    //         node.add_connection(connects[i]);
-    //     }
-    //     // print some information for debugging
-    //     node.print_node();
-
-    //     return node;
-    // }
-
-    GraphNode* create_node(int idx, int connects[5]){
-
-        GraphNode * node = new GraphNode(1);
+    GraphNode* create_node(int idx, int connects[], int num_connects){
+        // create a node object with the index idx and connects given by the input array. num_connects is the length of the input array
+        GraphNode * node = new GraphNode(1, 1);
 
         // node.print_node();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < num_connects; i++) {
             node->add_connection(connects[i]);
             // std::cout << array[i] << ' ';
         }
@@ -78,5 +85,15 @@ extern "C"{
         }
         // return a pointer to the array
         // return out;
+    }
+
+    void extern_propogate_node(GraphNode* node, float delta_t){
+        // propogate the node referenced by the pointer node forward by delta_t
+        node->propogate(delta_t);
+    }
+
+    float get_val(GraphNode* node){
+        // return the val for the node referenced by the pointer node
+        return node->val;
     }
 }
