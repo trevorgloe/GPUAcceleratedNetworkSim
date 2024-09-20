@@ -15,18 +15,18 @@ int main() {
     GraphNode* myNode3 = new GraphNode(3, SUM_NODE_VALS_THRESHOLD);
     myNode3->add_connection(1);
     myNode3->add_connection(2);
-    myGraph.addNode(*myNode1);
-    myGraph.addNode(*myNode2);
-    myGraph.addNode(*myNode3);
+    myGraph.addNode(myNode1);
+    myGraph.addNode(myNode2);
+    myGraph.addNode(myNode3);
     myGraph.print();
-    myGraph.nodes[0].val = 1.5; // set the value for node 1
-    myGraph.nodes[1].val = 2.4; // set the value for node 2
+    myGraph.nodes[0]->val = 1.5; // set the value for node 1
+    myGraph.nodes[1]->val = 2.4; // set the value for node 2
 
     myGraph.initConnectsPtrs();
-    myGraph.nodes[2].connects_ptrs[0]->print_node();
+    // myGraph.nodes[2].connects_ptrs[0]->print_node();
 
-    myGraph.nodes[2].propogate(0.1);
-    myGraph.nodes[2].print_node();
+    myGraph.nodes[2]->propogate(0.1);
+    myGraph.nodes[2]->print_node();
 
     return 0;
 }

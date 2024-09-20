@@ -25,7 +25,8 @@ void GraphNode::print_node(void) {
         std::cout << connects[i] << ' ';
     }
     std::cout << "  ";
-    std::cout << "with value: " << val << "\n";
+    std::cout << "with value: " << val;
+    std::cout << " with time t = " << t << "\n";
 }
 
 void GraphNode::propogate(float delta_t){
@@ -47,11 +48,12 @@ void GraphNode::propogate(float delta_t){
         }
         float threshold = 3.5; // arbitrary threshold for now
         
-        if (sum > threshold) {
-            val = 1.0;
-        } else {
-            val = 0.0;
-        }
+        // if (sum > threshold) {
+        //     val = 1.0;
+        // } else {
+        //     val = 0.0;
+        // }
+        val = sum;
     }
 
     t = t + delta_t;
