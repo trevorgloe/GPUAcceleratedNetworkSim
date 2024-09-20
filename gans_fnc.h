@@ -18,11 +18,13 @@ class GraphNode {
         float t;    // each node tracks its own time independently
         std::vector<int> connects; // a list of all the connected nodes
         node_fnc fnc_type; // which function will the node use to propogate "val"
+        std::vector<GraphNode*>connects_ptrs; // vector of pointers to the nodes that this node is connected to, so it can query the values from those nodes
 
         GraphNode(int idx, int fnc_idx); // constructor
         void add_connection(int target); // adds a single connection from the node to 'target'
         void print_node(void);  // prints out the basic info about the node
         void propogate(float delta_t); // propogates the val forward in time by delta t
+        void init_connect_ptrs(GraphNode* connects[], int num_ptrs);
 };
 }
 

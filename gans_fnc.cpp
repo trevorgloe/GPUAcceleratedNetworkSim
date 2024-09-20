@@ -24,15 +24,26 @@ void GraphNode::print_node(void) {
     for (int i=0; i < connects.size(); i++) {
         std::cout << connects[i] << ' ';
     }
+    std::cout << "  ";
+    std::cout << "with value: " << val << "\n";
 }
 
 void GraphNode::propogate(float delta_t){
     // this function will call whatever propogate function is set by the enum fnc_type and propogate the value forward
+    // first check that the vector of pointers is properly initialized
+    int ptrs_l = connects_ptrs.size();
+    if (ptrs_l != connects.size()) {
+        std::cout << "Cannot propogate nodes without pointer array properly initialized!\n";
+        return;
+    }
+
     if (fnc_type == SUM_NODE_VALS_THRESHOLD) {
         // sum the values of the different nodes its connected to
         float sum = 0;
         for (int i = 0; i < connects.size(); i++){
-            sum = sum + 1.0; // just do this for now, for testing
+            float node_val = connects_ptrs[i]->val; // get the value of the node located at this pointer
+            std::cout << "Node " << connects_ptrs[i]->index << " has value " << node_val << "\n";
+            sum = sum + node_val; // just do this for now, for testing
         }
         float threshold = 3.5; // arbitrary threshold for now
         
@@ -44,6 +55,13 @@ void GraphNode::propogate(float delta_t){
     }
 
     t = t + delta_t;
+}
+
+void GraphNode::init_connect_ptrs(GraphNode* connects[], int num_ptrs) {
+    // go through all the points in the array passed in and added them to the std vector
+    for (int i = 0; i < num_ptrs; i++) {
+        connects_ptrs.push_back(connects[i]);
+    }
 }
 }
 
