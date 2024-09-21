@@ -43,7 +43,7 @@ void GraphNode::propogate(float delta_t){
         float sum = 0;
         for (int i = 0; i < connects.size(); i++){
             float node_val = connects_ptrs[i]->val; // get the value of the node located at this pointer
-            std::cout << "Node " << connects_ptrs[i]->index << " has value " << node_val << "\n";
+            // std::cout << "Node " << connects_ptrs[i]->index << " has value " << node_val << "\n";
             sum = sum + node_val; // just do this for now, for testing
         }
         float threshold = 3.5; // arbitrary threshold for now

@@ -25,8 +25,14 @@ int main() {
     myGraph.initConnectsPtrs();
     // myGraph.nodes[2].connects_ptrs[0]->print_node();
 
-    myGraph.nodes[2]->propogate(0.1);
-    myGraph.nodes[2]->print_node();
+    // myGraph.nodes[2]->propogate(0.1);
+    // myGraph.nodes[2]->print_node();
+    // myGraph.propogateAllSerial(0.1);
+    for (int j = 0; j < 15; j++) {
+        // propogate by delta_t = 0.1 100 times
+        myGraph.propogateAllSerial(0.1);
+    }
+    myGraph.nodes[0]->print_node();
 
     return 0;
 }

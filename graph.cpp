@@ -19,6 +19,15 @@ void Graph::print(void) {
     }
 }
 
+// prints the values for all the nodes concisely
+void Graph::print_vals(void) {
+    std::cout << "Node values:\n";
+    for (int i = 0; i < nodes.size(); i++) {
+        float node_val = nodes[i]->val;
+        std::cout << "idx: " << nodes[i]->index << " val: " << node_val << "\n";
+    }
+}
+
 // function to add a node to the graph
 void Graph::addNode(GraphNode* node) {
     // just throw that node onto the end of the nodes vector
@@ -97,4 +106,49 @@ int Graph::nodeIndex2ArrayIndex(int nodeIdx) {
         // std::cout << "Loopered through node index converter \n";
     }
     return arrayIdx;
+}
+
+// propogate all the nodes forward in time by delta_t
+// this function does the propogation in the serialized fashion, having the CPU iterate through each node in the graph
+// and propogating it inidividually
+// MUST be done AFTER initializing the pointer arrays for each node
+void Graph::propogateAllSerial(float delta_t) {
+    // iterate through all nodes and propogate each one
+    for (int i = 0; i < nodes.size(); i++) {
+        nodes[i]->propogate(delta_t);
+    }
+    // print out all the values
+    print_vals();
+}
+
+
+/* ============= External Functions for python hooks ==============
+Functions that are called external from python
+*/
+extern "C" {
+    // create a graph
+    Graph* createGraph(char name[], int nodes[], int num_nodes, int connections[][2], int num_connects, int node_fnc_idx) {
+        // name is the name for the graph
+        // nodes is an array of integers representing the nodes' indices
+        // connections is an Nx2 array of the connections, where each tuple of integers represents the two nodes connected
+        // connections = [[x,y],....] where the first entry represents that x is connected to y
+        // node_fnc_idx specifies the function used to propogate the nodes' values
+
+        Graph* G = new Graph(name);
+
+        // first create all the nodes
+        for (int i = 0; i < num_nodes; i++){
+            GraphNode* node = new GraphNode(nodes[i], node_fnc_idx);
+            G->addNode(node);
+        }
+
+        G->print();
+
+        return G;
+    }
+
+    int testHooks(char* name, int namesize, int connections[][2]) {
+        std::cout << name;
+        return 1;
+    }
 }
