@@ -16,14 +16,18 @@ connects = [[1,2], [1,3], [2,1], [3,1], [3,4], [4,2]]
 connects_ctypes = np.ctypeslib.ndpointer(dtype=int, ndim=2, flags="C")
 # connects_ctypes = (ctypes.c_int * len(connects)*2) (*connects)
 nodes = [1,2,3,4]
-nodes_ctypes = (ctypes.c_int * len(nodes)) (*nodes)
+# nodes_ctypes = (ctypes.c_int * len(nodes)) (*nodes)
+nodes_ctypes = np.ctypeslib.ndpointer(dtype=int, ndim=1, flags="C")
 name = 'test';
 # name_ctypes = (ctypes.c_char * len(name)) (*name)
 # print(len(name))
 # testlib.testHooks.restype = ctypes.c_char_p
-testlib.testHooks.argtypes = [ctypes.c_char_p, ctypes.c_int, connects_ctypes]
-testlib.testHooks(ctypes.create_string_buffer(b'test'), 4, ctypes.byref(connects))
+# print(np.array(connects))
+# testlib.testHooks.argtypes = [ctypes.c_char_p, ctypes.c_int, connects_ctypes]
+# testlib.testHooks(ctypes.create_string_buffer(b'test'), 4, np.array(connects), 6)
 
+testlib.createGraph.argtypes = [ctypes.c_char_p, nodes_ctypes, ctypes.c_int, connects_ctypes, ctypes.c_int, ctypes.c_int]
+testlib.createGraph(ctypes.create_string_buffer(b'test'), np.array(nodes), 4, np.array(connects), 6, 0)
 
 # testlib.createGraph.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.c_int, connects_ctypes, ctypes.c_int, ctypes.c_int]
 # testlib.createGraph('test', ctypes.byref(nodes), 4, ctypes.byref(connects), )

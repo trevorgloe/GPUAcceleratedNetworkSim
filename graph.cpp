@@ -31,8 +31,13 @@ void Graph::print_vals(void) {
 // function to add a node to the graph
 void Graph::addNode(GraphNode* node) {
     // just throw that node onto the end of the nodes vector
-    nodes.push_back(node);
-    validateConnections();
+    // make sure the node doesn't already exist
+    if (!checkNodeExistance(node->index)) {
+        nodes.push_back(node);
+    } else {
+        std::cout << "Node already exists! \n";
+    }
+    // validateConnections();
 }
 
 // Validate all the connections to make sure nothing is wrong
@@ -121,13 +126,26 @@ void Graph::propogateAllSerial(float delta_t) {
     print_vals();
 }
 
+// converts the numpy array-style array into the structure that can be better used to create the node connections
+connects_struct Graph::convert2Struct(int idx, int *connections, int num_connects) {
+    // create a connects_struct
+    connects_struct connects;
+    connects.idx = idx;
+
+    // loop through the connections given
+    for (int i = 0; i < num_connects; i++) {
+        // only take the tuples that start with the index (only the connections originating for idx)
+        
+    }
+}
+
 
 /* ============= External Functions for python hooks ==============
 Functions that are called external from python
 */
 extern "C" {
     // create a graph
-    Graph* createGraph(char name[], int nodes[], int num_nodes, int connections[][2], int num_connects, int node_fnc_idx) {
+    Graph* createGraph(char* name, int *nodes, int num_nodes, int *connections, int num_connects, int node_fnc_idx) {
         // name is the name for the graph
         // nodes is an array of integers representing the nodes' indices
         // connections is an Nx2 array of the connections, where each tuple of integers represents the two nodes connected
@@ -138,7 +156,9 @@ extern "C" {
 
         // first create all the nodes
         for (int i = 0; i < num_nodes; i++){
-            GraphNode* node = new GraphNode(nodes[i], node_fnc_idx);
+            // for reasons beyond me, I have to double the index in the numpy array sent into the function
+            // numpy seems to put zeros between every value of the array sent in, so I need to take every other one to get the actual values
+            GraphNode* node = new GraphNode(nodes[2*i], node_fnc_idx);
             G->addNode(node);
         }
 
@@ -147,8 +167,13 @@ extern "C" {
         return G;
     }
 
-    int testHooks(char* name, int namesize, int connections[][2]) {
+    int testHooks(char* name, int namesize, int *connections, int num_connects) {
         std::cout << name;
+
+        for (int i = 0; i < 2*num_connects; i++) {
+            // std::cout << "element 1: " << connections[2*i] << " element 2: " << connections[2*i+1] << '\n';
+            std::cout << "element: " << connections[2*i] << '\n';
+        }
         return 1;
     }
 }
