@@ -127,7 +127,7 @@ void Graph::propogateAllSerial(float delta_t) {
 }
 
 // converts the numpy array-style array into the structure that can be better used to create the node connections
-connects_struct Graph::convert2Struct(int idx, int *connections, int num_connects) {
+connects_struct convert2Struct(int idx, int *connections, int num_connects) {
     // create a connects_struct
     connects_struct connects;
     connects.idx = idx;
@@ -135,7 +135,27 @@ connects_struct Graph::convert2Struct(int idx, int *connections, int num_connect
     // loop through the connections given
     for (int i = 0; i < num_connects; i++) {
         // only take the tuples that start with the index (only the connections originating for idx)
-        
+        // the array is organized column major, with 0s in between elements everywhere
+        // get the first element of the tuple
+        int first = connections[4*i];
+        if (first == idx) {
+            // this is a connection from the correct index, get the second element
+            int second = connections[4*i + 2];
+            connects.connections.push_back(second);
+        }
+    }
+    return connects;
+}
+
+// Puts all the connections into the graph node object from a connects_struct object
+void addConnects2Node(GraphNode* node, connects_struct struct_connects) {
+    // first make sure that the index matches, otherwise something went wrong
+    if (node->index != struct_connects.idx) {
+        std::cout << "Index of connections structure does not match index of node! \n";
+        return;
+    }
+    for (int i = 0; i < struct_connects.connections.size(); i++) {
+        node->connects.push_back(struct_connects.connections[i]);
     }
 }
 
@@ -159,6 +179,8 @@ extern "C" {
             // for reasons beyond me, I have to double the index in the numpy array sent into the function
             // numpy seems to put zeros between every value of the array sent in, so I need to take every other one to get the actual values
             GraphNode* node = new GraphNode(nodes[2*i], node_fnc_idx);
+            connects_struct node_connects = convert2Struct(node->index, connections, num_connects);
+            addConnects2Node(node, node_connects);
             G->addNode(node);
         }
 
@@ -175,5 +197,12 @@ extern "C" {
             std::cout << "element: " << connections[2*i] << '\n';
         }
         return 1;
+    }
+
+    // propogate graph forward
+    float* propogate(Graph* G, float delta_t) {
+        // G is a pointer to a Graph object and delta_t is a float specifying how far foward to propogate the graph
+        int N = G->nodes.size(); // get the number of nodes
+        float* values = new float[N];
     }
 }

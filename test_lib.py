@@ -27,7 +27,7 @@ name = 'test';
 # testlib.testHooks(ctypes.create_string_buffer(b'test'), 4, np.array(connects), 6)
 
 testlib.createGraph.argtypes = [ctypes.c_char_p, nodes_ctypes, ctypes.c_int, connects_ctypes, ctypes.c_int, ctypes.c_int]
-testlib.createGraph(ctypes.create_string_buffer(b'test'), np.array(nodes), 4, np.array(connects), 6, 0)
+Graph_ptr = testlib.createGraph(ctypes.create_string_buffer(b'test'), np.array(nodes), 4, np.array(connects), 6, 0)
 
 # testlib.createGraph.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.c_int, connects_ctypes, ctypes.c_int, ctypes.c_int]
 # testlib.createGraph('test', ctypes.byref(nodes), 4, ctypes.byref(connects), )

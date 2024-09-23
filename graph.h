@@ -32,7 +32,6 @@ class Graph {
         void validateConnections(void); // make sure no connection is specifying a node that doesn't exist
         bool checkNodeExistance(int idx); // quick function to check if a node exists
         int nodeIndex2ArrayIndex(int nodeIdx); // get the index in the nodes vector corresponding to a node with a specified index
-        connects_struct convert2Struct(int idx, int *connections, int num_connects);
 };
 
 // the structure containing connections for a certain node
@@ -45,6 +44,11 @@ typedef struct connects_struct {
 extern "C" {
     Graph* createGraph(char* name, int *nodes, int num_nodes, int *connections, int num_connects, int node_fnc_idx); // create a graph and return the pointer to that graph
     int testHooks(char* name, int namesize, int *connections, int num_connects);
+    float* propogate(Graph* G, float delta_t); // propogate the graph forward by delta_t and then return all the node values in a float array
 }
+
+// functions for converting python objects into C++ objects
+connects_struct convert2Struct(int idx, int *connections, int num_connects);
+void addConnects2Node(GraphNode* node, connects_struct);
 
 #endif
