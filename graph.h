@@ -43,7 +43,7 @@ typedef struct connects_struct {
 // External python hooks
 extern "C" {
     Graph* createGraph(char* name, int *nodes, int num_nodes, int *connections, int num_connects, int node_fnc_idx); // create a graph and return the pointer to that graph
-    int testHooks(char* name, int namesize, int *connections, int num_connects);
+    int testHooks(float val);
     float* propogate(Graph* G, float delta_t); // propogate the graph forward by delta_t and then return all the node values in a float array
 }
 

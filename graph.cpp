@@ -88,7 +88,7 @@ void Graph::initConnectsPtrs(void) {
             int arrayIdx = nodeIndex2ArrayIndex(nodes[i]->connects[j]);
             GraphNode* connection = nodes[arrayIdx];
             connect_ptrs[j] = connection;
-            connect_ptrs[j]->print_node();
+            // connect_ptrs[j]->print_node();
         }
         // give that array of pointers to the node
         nodes[i]->init_connect_ptrs(connect_ptrs, num_ptrs);
@@ -189,13 +189,8 @@ extern "C" {
         return G;
     }
 
-    int testHooks(char* name, int namesize, int *connections, int num_connects) {
-        std::cout << name;
-
-        for (int i = 0; i < 2*num_connects; i++) {
-            // std::cout << "element 1: " << connections[2*i] << " element 2: " << connections[2*i+1] << '\n';
-            std::cout << "element: " << connections[2*i] << '\n';
-        }
+    int testHooks(float val) {
+        std::cout << val;
         return 1;
     }
 
@@ -204,5 +199,18 @@ extern "C" {
         // G is a pointer to a Graph object and delta_t is a float specifying how far foward to propogate the graph
         int N = G->nodes.size(); // get the number of nodes
         float* values = new float[N];
+
+        // initialize pointer arrays
+        G->initConnectsPtrs();
+        G->propogateAllSerial(delta_t);
+
+        // get all the values into the float array
+        for (int i = 0; i < N; i++) {
+            values[i] = G->nodes[i]->val;
+        }
+        // G->print_vals();
+        G->print();
+
+        return values;
     }
 }

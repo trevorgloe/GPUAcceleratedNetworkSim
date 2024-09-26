@@ -6,6 +6,10 @@ import numpy as np
 
 class TestStruct(ctypes.Structure):
     _fields_ = [("array", (ctypes.c_int * 4) * 30)]
+
+class Graph_object(ctypes.Structure):
+    pass
+
     
 
 # testlib = ctypes.CDLL("out/build/gcc/libgans_fnc.so")
@@ -27,8 +31,25 @@ name = 'test';
 # testlib.testHooks(ctypes.create_string_buffer(b'test'), 4, np.array(connects), 6)
 
 testlib.createGraph.argtypes = [ctypes.c_char_p, nodes_ctypes, ctypes.c_int, connects_ctypes, ctypes.c_int, ctypes.c_int]
+testlib.createGraph.restype = ctypes.POINTER(Graph_object)
 Graph_ptr = testlib.createGraph(ctypes.create_string_buffer(b'test'), np.array(nodes), 4, np.array(connects), 6, 0)
 
+print("Propogating...")
+print(Graph_ptr)
+testlib.propogate.argtypes = [ctypes.POINTER(Graph_object), ctypes.c_float]
+
+testlib.propogate.restype = ctypes.POINTER(ctypes.c_int * 4)
+values_ptr = testlib.propogate(Graph_ptr, 0.2)
+# values_list = list(values_ptr
+# arrayType = ctypes.c_int * 5
+# recast = ctypes.cast(values_ptr, ctypes.POINTER(arrayType))
+for i in values_ptr.contents:
+    print(i)
+# print(np.frombuffer(recast.contents))
+# print(values_ptr)
+
+# testlib.testHooks.argtypes = [ctypes.c_float]
+# testlib.testHooks(3.14159265)
 # testlib.createGraph.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.c_int, connects_ctypes, ctypes.c_int, ctypes.c_int]
 # testlib.createGraph('test', ctypes.byref(nodes), 4, ctypes.byref(connects), )
 # name_ctypes = (ctypes.c_char) (ctypes.addressof(ctypes.create_string_buffer(4)))
